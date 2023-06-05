@@ -7,7 +7,7 @@
  * Return: 1 if uppercase, 0 otherwise.
  */
 
-static int _isupper(const int c)
+int _isupper(int c)
 {
 	if (c >= 'A' && c <= 'Z')
 		return (1);
