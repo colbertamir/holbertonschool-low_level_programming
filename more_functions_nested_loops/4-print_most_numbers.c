@@ -1,7 +1,7 @@
-#include <stdio.h>
+#include "main.h"
 
 /**
- *print_most_numbers - prints all the numbers from 0 to 9, except for 50 and 52.
+ *print_most_numbers - prints all the numbers from 0 to 9, except 50 and 52.
  *
  *Return: void
  */
@@ -24,5 +24,5 @@ int main(void)
 {
 	print_most_numbers();
 
-	return 0;
+	return (0);
 }
