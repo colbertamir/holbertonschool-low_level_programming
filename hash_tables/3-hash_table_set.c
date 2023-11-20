@@ -19,11 +19,15 @@ int update_value(hash_node_t *current, const char *value);
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
+	unsigned long int index;
+	hash_node_t *current;
+	hash_node_t *new_node;
+
 	if (ht == NULL || key == NULL || *key == '\0')
 		return (0);
 
-	unsigned long int index = key_index((const unsigned char *)key, ht->size);
-	hash_node_t *current = ht->array[index];
+	index = key_index((const unsigned char *)key, ht->size);
+	current = ht->array[index];
 
 	while (current != NULL)
 	{
@@ -33,7 +37,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 		current = current->next;
 	}
 
-	hash_node_t *new_node = create_new_node(key, value);
+	new_node = create_new_node(key, value);
 
 	if (new_node == NULL)
 		return (0);
@@ -57,6 +61,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 hash_node_t *create_new_node(const char *key, const char *value)
 {
 	hash_node_t *new_node = malloc(sizeof(hash_node_t));
+	char *new_value;
 
 	if (new_node == NULL)
 		return (NULL);
@@ -68,15 +73,17 @@ hash_node_t *create_new_node(const char *key, const char *value)
 		return (NULL);
 	}
 
-	new_node->value = (value != NULL) ? strdup(value) : NULL;
-	if (value != NULL && new_node->value == NULL)
+	new_value = (value != NULL) ? strdup(value) : NULL;
+	if (value != NULL && new_value == NULL)
 	{
 		free(new_node->key);
 		free(new_node);
 		return (NULL);
 	}
 
+	new_node->value = new_value;
 	new_node->next = NULL;
+
 	return (new_node);
 }
 
@@ -85,7 +92,7 @@ hash_node_t *create_new_node(const char *key, const char *value)
  * @current: Pointer to the node whose value is updating
  * @value: The new value to be updated
  *
- * Return: Upon success return 1, otherwise return 0
+ * Return: Upon success return one, otherwise return zero
  *
  * Description: Updates the value of an existing key in hash table
  * by assigning a new value to the corresponding node
